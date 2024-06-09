@@ -1,0 +1,7 @@
+lib64
+lib/
+bin/
+include/
+*.swp
+*.png
+*.cfg
